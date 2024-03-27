@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+<title>Datatable</title>
+<h:head>
+    <h:outputStylesheet library="webjars" name="bootstrap/5.3.2/css/bootstrap.css"/>
+    <h2>Bienvenu</h2>
+</h:head>
+<h:body>
+    <h:form>
+        <h:selectOneMenu value="#{localeBean.selectedLanguage}">
+            <f:selectItems value="#{localeBean.supportedLanguages}" />
+            <f:ajax listener="#{localeBean.changeLanguage}" render="@all" />
+        </h:selectOneMenu>
+    </h:form>
+    <h:form>
+
+        <h:dataTable id="table" var="user" value="#{userbean.users}" border="1" styleClass="table table-success table-striped-columns" rows="10" first="#{userBean.firstRowIndex}"><!--class="table table-striped " rowClasses="odd-row, even-row"-->
+            <h:column><f:facet name="header"><h:outputText value="#{langue.lname}" /></f:facet>#{user.lastName}</h:column>
+            <h:column><f:facet name="header"><h:outputText value="#{langue.fname}" /></f:facet>#{user.firstName}</h:column>
+            <h:column><f:facet name="header" ><h:outputText value="#{langue.city}" /></f:facet>#{user.city}</h:column>
+            <h:column><f:facet name="header" >E-mail</f:facet>#{user.email}</h:column>
+            <h:column><f:facet name="header" ><h:outputText value="#{langue.birth}" /></f:facet>#{user.birthDate}</h:column>
+            <h:column>
+                <f:facet name="header">Actions</f:facet>
+                <h:commandButton value="#{langue.edit}" action="#{userbean.editUser(user)}" />
+                <h:commandButton value="Delete" action="#{userbean.deleteuser(user.email)}" >
+                </h:commandButton>  </h:column>
+
+        </h:dataTable>
+
+
+        <h:commandButton value="#{langue.save}" action="#{userbean.saveChanges}" />
+        <h:commandButton value="#{langue.add}" action="#{userbean.addRow()}" />
+
+        <h:commandButton value="Previous" action="#{userBean.previousPage}" class="btn btn-link" disabled="#{userBean.previousButtonDisabled}" />
+        <h:outputText value=" #{userBean.currentPage} / #{userBean.totalRows} " />
+        <h:commandButton value="Next" action="#{userBean.nextPage}" class="btn btn-link" disabled="#{userBean.nextButtonDisabled}" />    </h:form>
+
+</h:body>
+
+
+</html>
